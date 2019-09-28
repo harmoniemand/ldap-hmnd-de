@@ -1,0 +1,30 @@
+version: '3'
+services:
+  openldap:
+    image: osixia/openldap
+    environment:
+      LDAP_ORGANISATION: "hmnd"
+      LDAP_DOMAIN: "hmnd.de"
+      LDAP_ADMIN_PASSWORD: "CwJssG6uNDHEJM91Ehr6"
+      LDAP_CONFIG_PASSWORD: "CwJssG6uNDHEJM91Ehr6"
+      LDAP_TLS_VERIFY_CLIENT: "try"
+    ports:
+    - "389:389"
+
+  admin:
+    image: osixia/phpldapadmin
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: "openldap"
+      PHPLDAPADMIN_HTTPS: "false"
+    networks:
+    - default
+    - traefik_net
+    labels:
+    - "traefik.enable=true"
+    - "traefik.port=80"
+    - "traefik.frontend.rule=Host:ldap.hmnd.de"
+    - "traefik.docker.network=traefik_net"
+
+networks:
+  traefik_net:
+    external: trueroot@v22018084804372620:/opt/docker-infrastructure/s04-hmnd-de#
