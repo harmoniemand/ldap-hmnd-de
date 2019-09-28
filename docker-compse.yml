@@ -5,11 +5,14 @@ services:
     environment:
       LDAP_ORGANISATION: "hmnd"
       LDAP_DOMAIN: "hmnd.de"
-      LDAP_ADMIN_PASSWORD: "CwJssG6uNDHEJM91Ehr6"
-      LDAP_CONFIG_PASSWORD: "CwJssG6uNDHEJM91Ehr6"
+      LDAP_ADMIN_PASSWORD: "${LDAP_ADMIN_PASSWORD}"
+      LDAP_CONFIG_PASSWORD: "${LDAP_CONFIG_PASSWORD}"
       LDAP_TLS_VERIFY_CLIENT: "try"
     ports:
-    - "389:389"
+      - "389:389"
+    volumes:
+      - /data/ldap-hmnd-de/database:/var/lib/ldap
+      - /data/ldap-hmnd-de/config:/etc/ldap/slapd.d
 
   admin:
     image: osixia/phpldapadmin
